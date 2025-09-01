@@ -1,0 +1,19 @@
+CREATE DATABASE IF NOT EXISTS feedback_app DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE feedback_app;
+CREATE TABLE IF NOT EXISTS feedbacks (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(100) NOT NULL,
+  email VARCHAR(191) NOT NULL,
+  rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  message VARCHAR(250) NOT NULL,
+  status ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+  created_at DATETIME NOT NULL,
+  reviewed_at DATETIME NULL,
+  UNIQUE KEY uq_feedback_email (email)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS admins (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
